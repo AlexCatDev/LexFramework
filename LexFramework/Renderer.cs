@@ -10,7 +10,7 @@ namespace LexFramework
 {
     public class Renderer
     {
-        public static void Render(VertexBuffer vertexBuffer, PrimitiveType vertexFormat = PrimitiveType.Quads) {
+        public static void Render(GLBuffer<Vertex> vertexBuffer, PrimitiveType vertexFormat = PrimitiveType.Quads) {
             vertexBuffer.Bind();
 
             //Input vertex positions
@@ -18,10 +18,10 @@ namespace LexFramework
             GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, Vertex.SizeInBytes, 0);
 
             //Draw array
-            GL.DrawArrays(vertexFormat, 0, vertexBuffer.VertexCount);
+            GL.DrawArrays(vertexFormat, 0, vertexBuffer.Count);
         }
 
-        public static void Render(VertexBuffer vertexBuffer, IndexBuffer indexBuffer, Shader shader, PrimitiveType vertexFormat = PrimitiveType.Quads) {
+        public static void Render(GLBuffer<Vertex> vertexBuffer, GLBuffer<uint> indexBuffer, Shader shader, PrimitiveType vertexFormat = PrimitiveType.Quads) {
             vertexBuffer.Bind();
             indexBuffer.Bind();
 
@@ -35,7 +35,7 @@ namespace LexFramework
 
 
             //Draw array
-            GL.DrawElements(vertexFormat, indexBuffer.IndexCount, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(vertexFormat, indexBuffer.Count, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

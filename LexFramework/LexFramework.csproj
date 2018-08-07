@@ -48,8 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchRenderer2D.cs" />
+    <Compile Include="GLBuffer.cs" />
     <Compile Include="ImmediateMode.cs" />
-    <Compile Include="IndexBuffer.cs" />
     <Compile Include="PixelBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
@@ -57,7 +57,6 @@
     <Compile Include="Texture2D.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Vertex.cs" />
-    <Compile Include="VertexBuffer.cs" />
     <Compile Include="VertexGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

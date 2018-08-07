@@ -13,21 +13,21 @@ namespace LexFramework
         public static readonly int MaxRender = 10000;
         public static readonly int VerticiesPerRender = 4;
         public static readonly int MaxRenderSize = (MaxRender * VerticiesPerRender) * Vertex.SizeInBytes;
-        public static readonly int MaxRenderIndicies = MaxRender * 6;
+        public static readonly int IndiciesPerRender = 6;
+        public static readonly int MaxRenderIndicies = MaxRender * IndiciesPerRender;
 
-        int vbo;
         Vertex* mappedVertexBufferPtr;
-        int ibo;
         int vao;
 
         private int indexCount = 0;
+
+        private GLBuffer<ushort> indexBuffer;
+        private GLBuffer<Vertex> vertexBuffer;
         public BatchRenderer2D() {
             vao = GL.GenVertexArray();
-            vbo = GL.GenBuffer();
             GL.BindVertexArray(vao);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-
-            GL.BufferData(BufferTarget.ArrayBuffer, MaxRenderSize, IntPtr.Zero, BufferUsageHint.DynamicDraw);
+            vertexBuffer = new GLBuffer<Vertex>(BufferTarget.ArrayBuffer, BufferUsageHint.DynamicDraw);
+            vertexBuffer.SetData(MaxRenderSize, IntPtr.Zero);
 
             //Input vertex positions
             GL.EnableVertexAttribArray(0);
@@ -51,17 +51,14 @@ namespace LexFramework
 
                 offset += 4;
             }
-
-            ibo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, MaxRenderIndicies, indicies, BufferUsageHint.StaticDraw);
+            
+            indexBuffer = new GLBuffer<ushort>(BufferTarget.ElementArrayBuffer, BufferUsageHint.StaticDraw);
+            indexBuffer.SetData(indicies);
 
         }
 
         public void Begin() {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            
-            mappedVertexBufferPtr = (Vertex*)GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
+            mappedVertexBufferPtr = (Vertex*)vertexBuffer.Map(BufferAccess.WriteOnly);
         }
 
         public void Submit(Vertex[] verts) {
@@ -82,11 +79,10 @@ namespace LexFramework
         }
 
         public void End() {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.UnmapBuffer(BufferTarget.ArrayBuffer);
+            vertexBuffer.Unmap();
 
             GL.BindVertexArray(vao);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
+            indexBuffer.Bind();
 
             GL.DrawElements(PrimitiveType.Triangles, indexCount, DrawElementsType.UnsignedShort, 0);
             indexCount = 0;

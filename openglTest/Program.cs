@@ -32,7 +32,8 @@ namespace openglTest
                 ImmediateMode.SetupView(window.Width, window.Height);
             };
 
-            VertexBuffer vb = new VertexBuffer(VertexGenerator.GetQuad());
+            GLBuffer<Vertex> vb = new GLBuffer<Vertex>();
+            vb.SetData(VertexGenerator.GetQuad());
             BatchRenderer2D batch = new BatchRenderer2D();
             Shader shader = new Shader("./vert.glsl", "./frag.glsl");
             shader.AddUniform("projectionMatrix");
@@ -64,7 +65,7 @@ namespace openglTest
                 shader.SetInt("tex", 0);
                 tex.Bind();
                 batch.Begin();
-                for (int x1 = 0; x1 < 10000; x1++) {
+                for (int x1 = 0; x1 < 1; x1++) {
                     batch.Submit(VertexGenerator.GetQuad());
                 }
                 batch.End();
