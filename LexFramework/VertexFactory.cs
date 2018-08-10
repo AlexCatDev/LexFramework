@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LexFramework
 {
-    public static class VertexGenerator
+    public static class VertexFactory
     {
         public static Vertex[] GetQuad() {
 

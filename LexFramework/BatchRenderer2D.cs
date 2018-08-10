@@ -17,15 +17,12 @@ namespace LexFramework
         public static readonly int MaxRenderIndicies = MaxRender * IndiciesPerRender;
 
         Vertex* mappedVertexBufferPtr;
-        int vao;
 
         private int indexCount = 0;
 
         private GLBuffer<ushort> indexBuffer;
         private GLBuffer<Vertex> vertexBuffer;
         public BatchRenderer2D() {
-            vao = GL.GenVertexArray();
-            GL.BindVertexArray(vao);
             vertexBuffer = new GLBuffer<Vertex>(BufferTarget.ArrayBuffer, BufferUsageHint.DynamicDraw);
             vertexBuffer.SetData(MaxRenderSize, IntPtr.Zero);
 
@@ -67,13 +64,22 @@ namespace LexFramework
                 End();
                 Begin();
             }
-            
-            for (int i = 0; i < verts.Length; i++) {
-                mappedVertexBufferPtr->position = verts[i].position;
-                mappedVertexBufferPtr->texCoord = verts[i].texCoord;
-                mappedVertexBufferPtr++;
-            }
 
+            mappedVertexBufferPtr->position = verts[0].position;
+            mappedVertexBufferPtr->texCoord = verts[0].texCoord;
+            mappedVertexBufferPtr++;
+
+            mappedVertexBufferPtr->position = verts[1].position;
+            mappedVertexBufferPtr->texCoord = verts[1].texCoord;
+            mappedVertexBufferPtr++;
+
+            mappedVertexBufferPtr->position = verts[2].position;
+            mappedVertexBufferPtr->texCoord = verts[2].texCoord;
+            mappedVertexBufferPtr++;
+
+            mappedVertexBufferPtr->position = verts[3].position;
+            mappedVertexBufferPtr->texCoord = verts[3].texCoord;
+            mappedVertexBufferPtr++;
 
             indexCount += 6;
         }
@@ -81,9 +87,7 @@ namespace LexFramework
         public void End() {
             vertexBuffer.Unmap();
 
-            GL.BindVertexArray(vao);
             indexBuffer.Bind();
-
             GL.DrawElements(PrimitiveType.Triangles, indexCount, DrawElementsType.UnsignedShort, 0);
             indexCount = 0;
         }

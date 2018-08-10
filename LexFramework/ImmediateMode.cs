@@ -35,7 +35,7 @@ namespace LexFramework
         }
 
         public static void RenderQuad(int x, int y, int width, int height, Vector4 color = default(Vector4)) {
-            RenderVerticies(new Vector2(x, y), new Vector2(width, height), 0, VertexGenerator.GetQuad(), PrimitiveType.Quads, color);
+            RenderVerticies(new Vector2(x, y), new Vector2(width, height), 0, VertexFactory.GetQuad(), PrimitiveType.Quads, color);
         }
 
         public static void RenderVerticies(Vector2 position, Vector2 scale, float rotation, Vertex[] verticies, PrimitiveType vertexType, Vector4 color = default(Vector4)) {

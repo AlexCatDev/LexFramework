@@ -76,5 +76,9 @@ namespace LexFramework
         public void Bind() {
             GL.BindBuffer(bufferType, ID);
         }
+
+        public void Unbind() {
+            GL.BindBuffer(bufferType, 0);
+        }
     }
 }

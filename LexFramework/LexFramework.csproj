@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchRenderer2D.cs" />
+    <Compile Include="Window.cs" />
     <Compile Include="GLBuffer.cs" />
     <Compile Include="ImmediateMode.cs" />
     <Compile Include="PixelBuffer.cs" />
@@ -57,7 +58,7 @@
     <Compile Include="Texture2D.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="Vertex.cs" />
-    <Compile Include="VertexGenerator.cs" />
+    <Compile Include="VertexFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
